@@ -32,7 +32,7 @@ public class EmployeeService extends ServiceBase{
     }
 
     /*
-     * 従業員テーブルのデータ絵kん吸うを取得し、返却する
+     * 従業員テーブルのデータ件数を取得し、返却する
      * @return 従業員テーブルのデータの件数
      */
     public long countAll() {
