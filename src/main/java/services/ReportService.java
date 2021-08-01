@@ -148,4 +148,36 @@ public class ReportService extends ServiceBase {
             em.getTransaction().commit();
 
         }
+
+        /*
+         * テスト追加、リアクション取得関係
+         */
+
+           public long countAllReaction(ReportView rv) {
+
+               long count = (long) em.createNamedQuery(JpaConst.Q_REACT_COUNT_ALL_REACT,Long.class)
+                       .setParameter(JpaConst.JPQL_PARM_REPORT,ReportConverter.toModel(rv))
+                       .getSingleResult();
+
+               return count;
+           }
+
+           /*
+            * 重複チェック用のカウント（ログイン者IDと日報IDを元に、ログイン者が既にリアクションしてるかをカウント）
+            */
+            public long countAllLoginReaction(ReportView rv,EmployeeView ev) {
+
+                long countLogin = (long) em.createNamedQuery(JpaConst.Q_REACT_COUNT_ALL_LOGIN_REACT,Long.class)
+                        .setParameter(JpaConst.JPQL_PARM_REPORT,ReportConverter.toModel(rv))
+                        .setParameter(JpaConst.JPQL_PARM_EMPLOYEE,EmployeeConverter.toModel(ev))
+                        .getSingleResult();
+
+                return countLogin;
+           }
+            /*
+             * リアクション検索
+             */
+
+
+
 }

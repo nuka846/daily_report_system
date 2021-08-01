@@ -41,14 +41,26 @@ public interface JpaConst {
     String REP_COL_CREATED_AT = "created_at"; //登録日時
     String REP_COL_UPDATED_AT = "updated_at"; //更新日時
 
+    //リアクションテーブル
+    String TABLE_REACT = "reactions"; //
+    //リアクションテーブルカラム
+    String REACT_COL_ID = "id";//id
+    String REACT_COL_EMP_ID = "employee_id";//リアクションした従業員ID
+    String REACT_COL_REP_ID = "report_id";//リアクションされた日報ID
+    String REACT_COL_REACT_TYPE = "reaction_type";//リアクションの種類
+    String REACT_COL_CREATED_AT = "created_at"; //登録日時
+
     //Entity名
     String ENTITY_EMP = "employee"; //従業員
     String ENTITY_REP = "report"; //日報
+    String ENTITY_REACT = "reaction";//リアクション
 
     //JPQL内パラメータ
     String JPQL_PARM_CODE = "code"; //社員番号
     String JPQL_PARM_PASSWORD = "password"; //パスワード
     String JPQL_PARM_EMPLOYEE = "employee"; //従業員
+    String JPQL_PARM_REPORT = "report";
+    String JPQL_PARM_REACTION = "reaction";
 
     //NamedQueryの nameとquery
     //全ての従業員をidの降順に取得する
@@ -75,4 +87,21 @@ public interface JpaConst {
     //指定した従業員が作成した日報の件数を取得する
     String Q_REP_COUNT_ALL_MINE = ENTITY_REP + ".countAllMine";
     String Q_REP_COUNT_ALL_MINE_DEF = "SELECT COUNT(r) FROM Report AS r WHERE r.employee = :" + JPQL_PARM_EMPLOYEE;
+
+    //全てのリアクションをidの降順に取得する
+    String Q_REACT_GET_ALL = ENTITY_REACT + ".getAll";
+    String Q_REACT_GET_ALL_DEF = "SELECT ract FROM Report AS ract ORDER BY ract.id DESC";
+    //全てのリアクションの件数を取得する
+    String Q_REACT_COUNT = ENTITY_REACT + ".count";
+    String Q_REACT_COUNT_DEF = "SELECT COUNT(ract) FROM Report AS ract";
+    //指定した日報に紐付いたリアクションの件数を取得する
+    String Q_REACT_COUNT_ALL_REACT = ENTITY_REACT + ".countAllReaction";
+    String Q_REACT_COUNT_ALL_REACT_DEF = "SELECT COUNT(ract) FROM Reaction AS ract WHERE ract.report = :" + JPQL_PARM_REPORT;
+
+    //指定した日報に紐付いた,ログイン者がしたリアクションの件数を取得する
+    String Q_REACT_COUNT_ALL_LOGIN_REACT = ENTITY_REACT + ".countLoginReaction";
+    String Q_REACT_COUNT_ALL_LOGIN_REACT_DEF = "SELECT COUNT(ract) FROM Reaction AS ract WHERE ract.report = :" + JPQL_PARM_REPORT +" AND ract.employee = :" + JPQL_PARM_EMPLOYEE;
+
+
+
 }

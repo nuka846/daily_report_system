@@ -135,6 +135,10 @@ public class ReportAction extends ActionBase {
      */
     public void show() throws ServletException,IOException{
 
+        //テスト追加
+        putRequestScope(AttributeConst.TOKEN, getTokenId()); //CSRF対策用トークン
+        //
+
         //idを条件に日報データを取得する
         ReportView rv = service.findOne(toNumber(getRequestParam(AttributeConst.REP_ID)));
         if(rv == null) {
@@ -144,6 +148,15 @@ public class ReportAction extends ActionBase {
         } else {
 
             putRequestScope(AttributeConst.REPORT, rv); //取得した日報データ
+            putSessionScope(AttributeConst.REP_ID,rv);//テスト追加
+            //リアクション取得テスト
+            long allReactionCount = service.countAllReaction(rv);
+            putRequestScope(AttributeConst.REACT_COUNT, allReactionCount); //リアクションされた日報の数
+            //リアクション取得テスト2
+            EmployeeView ev = (EmployeeView) getSessionScope(AttributeConst.LOGIN_EMP);
+            long allLoginReaction = service.countAllLoginReaction(rv,ev);
+
+            putRequestScope(AttributeConst.REACT_LOG_COUNT, allLoginReaction); //リアクションされた日報の数
 
             //詳細画面を表示
             forward(ForwardConst.FW_REP_SHOW);
