@@ -41,6 +41,10 @@ public interface JpaConst {
     String REP_COL_CREATED_AT = "created_at"; //登録日時
     String REP_COL_UPDATED_AT = "updated_at"; //更新日時
 
+    String REP_COL_APPROV_FLAG = "approval_flag";
+    int APPROV_ON =1;//承認済み
+    int APPROV_OFF = 0;//承認未完了
+
     //リアクションテーブル
     String TABLE_REACT = "reactions"; //
     //リアクションテーブルカラム
@@ -50,10 +54,29 @@ public interface JpaConst {
     String REACT_COL_REACT_TYPE = "reaction_type";//リアクションの種類
     String REACT_COL_CREATED_AT = "created_at"; //登録日時
 
+    //役職テーブル
+    String TABLE_ROLE = "roles"; //
+    //カラム
+    String ROLE_ID = "id";//id
+    String ROLE_EMP_ID = "employee_id";//従業員ID
+    String ROLE_FLAG = "role_flag";//承認権限の有無
+    String DEPARTMENT_GR = "department_Gr";//所属部署
+
+    //承認テーブル
+    String TABLE_APPROV = "approvals"; //
+    //カラム
+    String APPROV_ID = "id";//id
+    String APPROV_REP_ID = "report_id";//日報ID
+    String APPROV_FLAG = "approv_flag";//承認フラグ
+    String APPROV_CREATED_AT = "created_at";//承認日時
+    String APPROV_UPDATED_AT = "updated_at";//修正日時
+
     //Entity名
     String ENTITY_EMP = "employee"; //従業員
     String ENTITY_REP = "report"; //日報
     String ENTITY_REACT = "reaction";//リアクション
+    String ENTITY_APPROV = "appproval";
+
 
     //JPQL内パラメータ
     String JPQL_PARM_CODE = "code"; //社員番号
@@ -75,6 +98,7 @@ public interface JpaConst {
     //指定した社員番号を保持する従業員の件数を取得する
     String Q_EMP_COUNT_RESISTERED_BY_CODE = ENTITY_EMP + ".countRegisteredByCode";
     String Q_EMP_COUNT_RESISTERED_BY_CODE_DEF = "SELECT COUNT(e) FROM Employee AS e WHERE e.code = :" + JPQL_PARM_CODE;
+
     //全ての日報をidの降順に取得する
     String Q_REP_GET_ALL = ENTITY_REP + ".getAll";
     String Q_REP_GET_ALL_DEF = "SELECT r FROM Report AS r ORDER BY r.id DESC";
@@ -102,6 +126,18 @@ public interface JpaConst {
     String Q_REACT_COUNT_ALL_LOGIN_REACT = ENTITY_REACT + ".countLoginReaction";
     String Q_REACT_COUNT_ALL_LOGIN_REACT_DEF = "SELECT COUNT(ract) FROM Reaction AS ract WHERE ract.report = :" + JPQL_PARM_REPORT +" AND ract.employee = :" + JPQL_PARM_EMPLOYEE;
 
+    //未承認の日報全てを取得
+    String Q_REP_GET_ALL_NO_APPROV = ENTITY_REP + ".getAllNoApprov";
+    String Q_REP_GET_ALL_NO_APPROV_DEF = "SELECT r FROM Report AS r WHERE r.approvalFlag = 0";
+    //未承認の日報全ての件数を取得
+    String Q_REP_COUNT_APPROV = ENTITY_REP + ".countApprov";
+    String Q_REP_COUNT_APPROV_DEF = "SELECT COUNT(r) FROM Report AS r WHERE r.approvalFlag = 0";
 
+    //指定した日報に紐付いた承認詳細情報を取得する
+    String Q_APPROV_DATA = ENTITY_APPROV + ".approvalData";
+    String Q_APPROV_DATA_DEF = "SELECT ap FROM Approval AS ap WHERE ap.report = :" + JPQL_PARM_REPORT;
 
+    //未承認の日報全てを取得
+    String Q_REP_GET_ALL_APPROV = ENTITY_REP + ".getAllApprov";
+    String Q_REP_GET_ALL_APPROV_DEF = "SELECT r FROM Report AS r WHERE r.approvalFlag = 1";
 }

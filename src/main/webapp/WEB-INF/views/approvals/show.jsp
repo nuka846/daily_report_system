@@ -4,8 +4,9 @@
 <%@ page import="constants.ForwardConst" %>
 <%@ page import="constants.AttributeConst" %>
 
-<c:set var="actRep" value="${ForwardConst.ACT_REP.getValue()}" />
+<c:set var="actApprov" value="${ForwardConst.ACT_APPROV.getValue() }"/>
 <c:set var="commIdx" value="${ForwardConst.CMD_INDEX.getValue()}" />
+<c:set var="commNew" value="${ForwardConst.CMD_NEW.getValue()}" />
 <c:set var="commEdt" value="${ForwardConst.CMD_EDIT.getValue()}" />
 <c:set var="reactPost" value="${ForwardConst.ACT_REACT.getValue()}" />
 <c:set var="commCrt" value="${ForwardConst.CMD_CREATE.getValue()}" />
@@ -13,7 +14,7 @@
 <c:import url="/WEB-INF/views/layout/app.jsp">
     <c:param name="content">
 
-        <h2>日報 詳細ページ</h2>
+        <h2>日報確認</h2>
 
         <table>
             <tbody>
@@ -43,36 +44,20 @@
             </tbody>
         </table>
 
-        <c:if test="${sessionScope.login_employee.id == report.employee.id and report.approvalFlag == 0}">
-            <p>
-                <a href="<c:url value='?action=${actRep}&command=${commEdt}&id=${report.id}' />">この日報を編集する</a>
+<c:choose>
+    <c:when test="${approval.id == null }">
+            <p><a href="<c:url value='?action=${actApprov}&command=${commNew}&id=${report.id}'/>">承認を行う</a>
             </p>
-        </c:if>
-
+    </c:when>
+    <c:otherwise>
+            <p>
+               <a href="<c:url value='?action=${actApprov}&command=${commEdt}&id=${report.id}' />">承認状態の変更を行う</a>
+            </p>
+    </c:otherwise>
+</c:choose>
         <p>
-            <a href="<c:url value='?action=${actRep}&command=${commIdx}' />">一覧に戻る</a>
+            <a href="<c:url value='?action=${actApprov}&command=${commIdx}' />">未承認日報一覧に戻る</a>
         </p>
-            <c:if test="${sessionScope.login_employee.id != report.employee.id and reaction_login == 0 }">
-                <form method="post" action="<c:url value='?action=${reactPost}&command=${commCrt}' />">
-                    <input type="hidden" name="${AttributeConst.REP_ID.getValue()}" value="${report.id}" />
-                    <input type="hidden" name="${AttributeConst.TOKEN.getValue()}" value="${_token}" />
-                    <button type="submit">いいね</button>
-                </form>
-            </c:if>
-            いいねされた数（全 ${reactions_count} 件）<br /><br />
-
-            <c:if test="${approval.id != null and report.approvalFlag == 1}">
-                <c:choose>
-                <c:when test="${approval.createdAt == approval.updatedAt}">
-                <fmt:parseDate value="${approval.createdAt}" pattern="yyyy-MM-dd'T'HH:mm:ss" var="createDayApv" type="date" />
-                この日報は、<fmt:formatDate value="${createDayApv}" pattern="yyyy-MM-dd HH:mm:ss" />に承認されました。
-                </c:when>
-                <c:otherwise>
-                <fmt:parseDate value="${approval.updatedAt}" pattern="yyyy-MM-dd'T'HH:mm:ss" var="updateDayApv" type="date" />
-                この日報は、<fmt:formatDate value="${updateDayApv}" pattern="yyyy-MM-dd HH:mm:ss" />に承認されました。
-                </c:otherwise>
-                </c:choose>
-            </c:if>
 
     </c:param>
 </c:import>

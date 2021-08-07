@@ -12,6 +12,7 @@ public enum ForwardConst {
     ACT_REP("Report"),
     ACT_REACT("Reaction"),
     ACT_AUTH("Auth"),
+    ACT_APPROV("Approval"),
 
     //command
     CMD("command"),
@@ -38,7 +39,12 @@ public enum ForwardConst {
     FW_REP_INDEX("reports/index"),
     FW_REP_SHOW("reports/show"),
     FW_REP_NEW("reports/new"),
-    FW_REP_EDIT("reports/edit");
+    FW_REP_EDIT("reports/edit"),
+    FW_APPROV_INDEX("approvals/index"),
+    FW_APPROV_SHOW("approvals/show"),
+    FW_APPROV_NEW("approvals/new"),
+    FW_APPROV_EDIT("approvals/edit"),
+    FW_APPROV_DEBUG("approvals/debugIndex");
 
     /*
      * 文字列

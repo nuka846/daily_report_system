@@ -38,7 +38,18 @@ import lombok.Setter;
             query = JpaConst.Q_REP_GET_ALL_MINE_DEF),
     @NamedQuery(
             name = JpaConst.Q_REP_COUNT_ALL_MINE,
-            query = JpaConst.Q_REP_COUNT_ALL_MINE_DEF)
+            query = JpaConst.Q_REP_COUNT_ALL_MINE_DEF),
+    @NamedQuery(
+            name = JpaConst.Q_REP_GET_ALL_NO_APPROV,
+            query = JpaConst.Q_REP_GET_ALL_NO_APPROV_DEF),
+
+    @NamedQuery(
+            name = JpaConst.Q_REP_COUNT_APPROV,
+            query = JpaConst.Q_REP_COUNT_APPROV_DEF),
+    @NamedQuery(
+            name = JpaConst.Q_REP_GET_ALL_APPROV,
+            query = JpaConst.Q_REP_GET_ALL_APPROV_DEF)
+
 })
 
 @Getter
@@ -93,5 +104,11 @@ public class Report {
      */
     @Column(name = JpaConst.REP_COL_UPDATED_AT, nullable = false)
     private LocalDateTime updatedAt;
+
+    /*
+     * 承認フラグ
+     */
+    @Column(name = JpaConst.REP_COL_APPROV_FLAG)
+    private Integer approvalFlag;
 
 }

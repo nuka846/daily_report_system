@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.servlet.ServletException;
 
+import actions.views.ApprovalView;
 import actions.views.EmployeeView;
 import actions.views.ReportView;
 import constants.AttributeConst;
@@ -41,6 +42,7 @@ public class ReportAction extends ActionBase {
 
         //
         long reportsCount = service.countAll();
+
 
         putRequestScope(AttributeConst.REPORTS, reports); //取得した日報データ
         putRequestScope(AttributeConst.REP_COUNT, reportsCount); //全ての日報データの件数
@@ -101,7 +103,8 @@ public class ReportAction extends ActionBase {
                     getRequestParam(AttributeConst.REP_TITLE),
                     getRequestParam(AttributeConst.REP_CONTENT),
                     null,
-                    null);
+                    null,
+                    AttributeConst.APPROV_OFF.getIntegerValue());
 
             //日報情報登録
             List<String> errors = service.create(rv);
@@ -154,9 +157,12 @@ public class ReportAction extends ActionBase {
             putRequestScope(AttributeConst.REACT_COUNT, allReactionCount); //リアクションされた日報の数
             //リアクション取得テスト2
             EmployeeView ev = (EmployeeView) getSessionScope(AttributeConst.LOGIN_EMP);
-            long allLoginReaction = service.countAllLoginReaction(rv,ev);
 
+            long allLoginReaction = service.countAllLoginReaction(rv,ev);
             putRequestScope(AttributeConst.REACT_LOG_COUNT, allLoginReaction); //リアクションされた日報の数
+
+            ApprovalView apv = service.getApprovalData(rv);
+            putRequestScope(AttributeConst.APPROV,apv);
 
             //詳細画面を表示
             forward(ForwardConst.FW_REP_SHOW);

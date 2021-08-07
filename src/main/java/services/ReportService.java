@@ -3,11 +3,14 @@ package services;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import actions.views.ApprovalConverter;
+import actions.views.ApprovalView;
 import actions.views.EmployeeConverter;
 import actions.views.EmployeeView;
 import actions.views.ReportConverter;
 import actions.views.ReportView;
 import constants.JpaConst;
+import models.Approval;
 import models.Report;
 import models.validators.ReportValidator;
 
@@ -177,7 +180,20 @@ public class ReportService extends ServiceBase {
             /*
              * リアクション検索
              */
+            //日報データを参照し、承認詳細情報を取得する。
+            //データ検索時、空データによるエラーが発生した場合、架空のインスタンス生成し返却。
+            public ApprovalView getApprovalData(ReportView rv){
+                try {
+                Approval apv = em.createNamedQuery(JpaConst.Q_APPROV_DATA,Approval.class)
+                        .setParameter(JpaConst.JPQL_PARM_REPORT,ReportConverter.toModel(rv))
+                        .getSingleResult();
+                return ApprovalConverter.toView(apv);
 
+                }catch(Exception e){
+                    ApprovalView apv = new ApprovalView(null,null,null,null);
+                    return apv;
+                }
+            }
 
 
 }

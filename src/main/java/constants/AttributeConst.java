@@ -49,13 +49,20 @@ public enum AttributeConst {
     REP_DATE("report_date"),
     REP_TITLE("title"),
     REP_CONTENT("content"),
+    REP_APPROV_FLAG("approve_flag"),
+    REP_APPROV_COUNT("reports_count_approval"),
+    //承認フラグ
+    APPROV_ON(1),
+    APPROV_OFF(0),
 
     //リアクション
     REACTION("reaction"),
     REACTIONS("reactions"),
     REACT_COUNT("reactions_count"),
     REACT_DATE("reaction_date"),
-    REACT_LOG_COUNT("reaction_login");
+    REACT_LOG_COUNT("reaction_login"),
+    //承認
+    APPROV("approval");
 
 
     private final String text;

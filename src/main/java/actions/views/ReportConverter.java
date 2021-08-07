@@ -21,7 +21,8 @@ public class ReportConverter {
                 rv.getTitle(),
                 rv.getContent(),
                 rv.getCreatedAt(),
-                rv.getUpdatedAt());
+                rv.getUpdatedAt(),
+                rv.getApprovalFlag());
     }
 
     /*
@@ -41,7 +42,8 @@ public class ReportConverter {
                 r.getTitle(),
                 r.getContent(),
                 r.getCreatedAt(),
-                r.getUpdatedAt());
+                r.getUpdatedAt(),
+                r.getApprovalFlag());
     }
 
     /*
@@ -71,6 +73,7 @@ public class ReportConverter {
         r.setContent(rv.getContent());
         r.setCreatedAt(rv.getCreatedAt());
         r.setUpdatedAt(rv.getUpdatedAt());
+        r.setApprovalFlag(rv.getApprovalFlag());
     }
 
     /*
@@ -84,6 +87,8 @@ public class ReportConverter {
         rv.setReportDate(r.getReportDate());
         rv.setTitle(r.getTitle());
         rv.setCreatedAt(r.getCreatedAt());
-        rv.setUpdatedAt(r.getUpdatedAt());    }
+        rv.setUpdatedAt(r.getUpdatedAt());
+        rv.setApprovalFlag(r.getApprovalFlag());
+    }
 
 }
