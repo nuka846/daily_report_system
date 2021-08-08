@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 
 import actions.views.EmployeeView;
+import actions.views.RoleView;
 import constants.AttributeConst;
 import constants.ForwardConst;
 import constants.MessageConst;
@@ -75,6 +76,10 @@ public class AuthAction extends ActionBase {
                 EmployeeView ev = service.findOne(code, plainPass, pepper);
                 //セッションにログインした従業員を設定
                 putSessionScope(AttributeConst.LOGIN_EMP, ev);
+                //ログイン情報を元に役職情報を取得しセッションスコープに収納
+                RoleView rlv = service.getRoleData(ev);
+                putSessionScope(AttributeConst.LOGIN_ROLE,rlv);
+
                 //セッションにログイン完了のフラッシュメッセージを設定
                 putSessionScope(AttributeConst.FLUSH, MessageConst.I_LOGINED.getMessage());
                 //トップページへリダイレクト

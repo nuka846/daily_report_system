@@ -60,7 +60,7 @@ public interface JpaConst {
     String ROLE_ID = "id";//id
     String ROLE_EMP_ID = "employee_id";//従業員ID
     String ROLE_FLAG = "role_flag";//承認権限の有無
-    String DEPARTMENT_GR = "department_Gr";//所属部署
+    String DEPARTMENT_GR = "department_gr";//所属部署
 
     //承認テーブル
     String TABLE_APPROV = "approvals"; //
@@ -76,6 +76,8 @@ public interface JpaConst {
     String ENTITY_REP = "report"; //日報
     String ENTITY_REACT = "reaction";//リアクション
     String ENTITY_APPROV = "appproval";
+    String ENTITY_ROLE = "role";//役職
+
 
 
     //JPQL内パラメータ
@@ -140,4 +142,15 @@ public interface JpaConst {
     //未承認の日報全てを取得
     String Q_REP_GET_ALL_APPROV = ENTITY_REP + ".getAllApprov";
     String Q_REP_GET_ALL_APPROV_DEF = "SELECT r FROM Report AS r WHERE r.approvalFlag = 1";
+
+
+  //指定した従業員idに紐付いた役職情報を取得する
+    String Q_ROLE_DATA = ENTITY_ROLE + ".roleData";
+    String Q_ROLE_DATA_DEF = "SELECT rl FROM Role AS rl WHERE rl.employee = :" + JPQL_PARM_EMPLOYEE;
+
+  //社員番号を条件に従業員データを取得する
+    String Q_ROLE_GET_EMP_BY_CODE = ENTITY_ROLE + ".getByCode";
+    String Q_ROLE_GET_EMP_BY_CODE_DEF = "SELECT e FROM Employee AS e WHERE e.code = :" + JPQL_PARM_CODE;
+
+
 }

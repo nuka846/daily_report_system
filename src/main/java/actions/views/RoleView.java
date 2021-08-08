@@ -16,9 +16,11 @@ public class RoleView {
 
     private EmployeeView employee;
 
+    private Integer departmentGr;
+
     private Integer roleFlag;
 
-    private Integer departmentGr;
+
 
 
 }

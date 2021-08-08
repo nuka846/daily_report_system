@@ -7,46 +7,46 @@ import models.Role;
 
 public class RoleConverter {
 
-    public static Role toModel(RoleView rov) {
+    public static Role toModel(RoleView rlv) {
         return new Role(
-                rov.getId(),
-                EmployeeConverter.toModel(rov.getEmployee()),
-                rov.getRoleFlag(),
-                rov.getDepartmentGr());
+                rlv.getId(),
+                EmployeeConverter.toModel(rlv.getEmployee()),
+                rlv.getDepartmentGr(),
+                rlv.getRoleFlag());
     }
 
-    public static RoleView toView(Role ro) {
-        if (ro == null) {
+    public static RoleView toView(Role rl) {
+        if (rl == null) {
             return null;
         }
         return new RoleView(
-                ro.getId(),
-                EmployeeConverter.toView(ro.getEmployee()),
-                ro.getRoleFlag(),
-                ro.getDepartmentGr());
+                rl.getId(),
+                EmployeeConverter.toView(rl.getEmployee()),
+                rl.getDepartmentGr(),
+                rl.getRoleFlag());
     }
 
     public static List<RoleView> toViewList(List<Role> list){
-        List<RoleView> rovs = new ArrayList<>();
+        List<RoleView> rlv = new ArrayList<>();
 
-        for (Role ro : list) {
-            rovs.add(toView(ro));
+        for (Role rl : list) {
+            rlv.add(toView(rl));
         }
 
-        return rovs;
+        return rlv;
     }
 
-    public static void copyViewToModel(Role ro,RoleView rov) {
-        ro.setId(rov.getId());
-        ro.setEmployee(EmployeeConverter.toModel(rov.getEmployee()));
-        ro.setRoleFlag(rov.getRoleFlag());
-        ro.setDepartmentGr(rov.getDepartmentGr());
+    public static void copyViewToModel(Role rl,RoleView rlv) {
+        rl.setId(rlv.getId());
+        rl.setEmployee(EmployeeConverter.toModel(rlv.getEmployee()));
+        rl.setDepartmentGr(rlv.getDepartmentGr());
+        rl.setRoleFlag(rlv.getRoleFlag());
     }
 
-    public static void copyModelToView(Role ro,RoleView rov) {
-        rov.setId(ro.getId());
-        rov.setEmployee(EmployeeConverter.toView(ro.getEmployee()));
-        rov.setRoleFlag(ro.getRoleFlag());
-        rov.setDepartmentGr(ro.getDepartmentGr());
+    public static void copyModelToView(Role rl,RoleView rlv) {
+        rlv.setId(rl.getId());
+        rlv.setEmployee(EmployeeConverter.toView(rl.getEmployee()));
+        rlv.setDepartmentGr(rl.getDepartmentGr());
+        rlv.setRoleFlag(rl.getRoleFlag());
     }
 }

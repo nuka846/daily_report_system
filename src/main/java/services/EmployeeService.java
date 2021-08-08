@@ -7,8 +7,11 @@ import javax.persistence.NoResultException;
 
 import actions.views.EmployeeConverter;
 import actions.views.EmployeeView;
+import actions.views.RoleConverter;
+import actions.views.RoleView;
 import constants.JpaConst;
 import models.Employee;
+import models.Role;
 import models.validators.EmployeeValidator;
 import utils.EncryptUtil;
 /*
@@ -254,4 +257,49 @@ public class EmployeeService extends ServiceBase{
 
     }
 
+
+        //役職情報
+        public void createRole(RoleView rlv) {
+            em.getTransaction().begin();
+            em.persist(RoleConverter.toModel(rlv));
+            em.getTransaction().commit();
+        }
+
+        //従業員番号を条件に、従業員データを取得する。
+        public EmployeeView getDataByCode(String code){
+            Employee e = null;
+            e = em.createNamedQuery(JpaConst.Q_ROLE_GET_EMP_BY_CODE,Employee.class)
+                .setParameter(JpaConst.JPQL_PARM_CODE, code)
+                .getSingleResult();
+            return EmployeeConverter.toView(e);
+            }
+
+
+
+        //従業員データを参照し、役職情報を取得する。
+        //データ検索時、空データによるエラーが発生した場合、架空のインスタンス生成し返却。
+            public RoleView getRoleData(EmployeeView ev){
+            try {
+            Role rlv = em.createNamedQuery(JpaConst.Q_ROLE_DATA,Role.class)
+                    .setParameter(JpaConst.JPQL_PARM_EMPLOYEE,EmployeeConverter.toModel(ev))
+                    .getSingleResult();
+            return RoleConverter.toView(rlv);
+
+            }catch(Exception e){
+                RoleView rlv = null;
+                return rlv;
+            }
+        }
+        public void updateRole(RoleView rlv) {
+            em.getTransaction().begin();
+            Role rl =  findOneRole(rlv.getId());
+            RoleConverter.copyViewToModel(rl, rlv);
+            em.getTransaction().commit();
+
+
+        }
+        private Role findOneRole(int id) {
+            Role rl = em.find(Role.class, id);
+            return rl;
+        }
 }

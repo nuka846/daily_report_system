@@ -43,6 +43,34 @@
             </tbody>
         </table>
 
+        <table>
+            <tbody>
+                <tr>
+                    <th>所属部署</th>
+                    <td><c:choose>
+                        <c:when test="${role.departmentGr  == 0}">
+                        総務部</c:when>
+                        <c:when test="${role.departmentGr == 1 }">
+                        営業部</c:when>
+                        <c:otherwise>
+                        広報部</c:otherwise>
+                        </c:choose>
+                    </td>
+                </tr>
+                <tr>
+                    <th>役職</th>
+                    <td><c:choose>
+                        <c:when test="${role.roleFlag  == 0}">
+                        メンバー</c:when>
+                        <c:when test="${role.roleFlag == 1 }">
+                        課長</c:when>
+                        <c:otherwise>
+                        部長</c:otherwise>
+                        </c:choose>
+                </tr>
+            </tbody>
+        </table>
+
         <p>
             <a href="<c:url value='?action=${actEmp}&command=${commEdit}&id=${employee.id}' />">この従業員情報を編集する</a>
         </p>

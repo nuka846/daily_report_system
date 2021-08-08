@@ -19,6 +19,7 @@ public enum AttributeConst {
 
     //ログイン中の従業員
     LOGIN_EMP("login_employee"),
+    LOGIN_ROLE("login_role"),
 
     //ログイン画面
     LOGIN_ERR("loginError"),
@@ -62,7 +63,19 @@ public enum AttributeConst {
     REACT_DATE("reaction_date"),
     REACT_LOG_COUNT("reaction_login"),
     //承認
-    APPROV("approval");
+    APPROV("approval"),
+    ROLE("role"),
+    ROLE_FLAG("role_flag"),
+    DEPART_GR("department_gr"),
+    //所属部署
+    GR_GENERAL(0),//総務
+    GR_SALES(1),//営業
+    GR_PUBLIC(2),//広報
+    //役職
+    ROLE_ID("role_id"),
+    ROLE_MEMBER(0),
+    ROLE_MANAGER(1),
+    ROLE_DIRECTER(2);
 
 
     private final String text;

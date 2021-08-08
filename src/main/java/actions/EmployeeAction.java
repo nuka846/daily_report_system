@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.ServletException;
 
 import actions.views.EmployeeView;
+import actions.views.RoleView;
 import constants.AttributeConst;
 import constants.ForwardConst;
 import constants.JpaConst;
@@ -74,6 +75,7 @@ public class EmployeeAction extends ActionBase {
 
         putRequestScope(AttributeConst.TOKEN,getTokenId());//CSRF対策
         putRequestScope(AttributeConst.EMPLOYEE,new EmployeeView());
+        putRequestScope(AttributeConst.ROLE,new RoleView());
 
         //新規登録画面を表示
         forward(ForwardConst.FW_EMP_NEW);
@@ -106,6 +108,17 @@ public class EmployeeAction extends ActionBase {
 
             //従業員情報登録
             List<String> errors = service.create(ev,pepper);
+
+
+            //役職情報のテーブルに新規登録
+            RoleView rlv = new RoleView(
+                    null,
+                    service.getDataByCode(getRequestParam(AttributeConst.EMP_CODE)),
+                    toNumber(getRequestParam(AttributeConst.DEPART_GR)),
+                    toNumber(getRequestParam(AttributeConst.ROLE_FLAG)));
+            service.createRole(rlv);
+
+
 
             if (errors.size() > 0) {
                 //登録中にエラーがあった場合
@@ -150,8 +163,10 @@ public class EmployeeAction extends ActionBase {
             forward(ForwardConst.FW_ERR_UNKNOWN);
             return;
         }
-
+        //役職情報取得
+        RoleView rlv = service.getRoleData(ev);
         putRequestScope(AttributeConst.EMPLOYEE, ev); //取得した従業員情報
+        putRequestScope(AttributeConst.ROLE,rlv);//取得した役職情報
 
         //詳細画面を表示
         forward(ForwardConst.FW_EMP_SHOW);
@@ -173,7 +188,8 @@ public class EmployeeAction extends ActionBase {
              forward(ForwardConst.FW_ERR_UNKNOWN);
              return;
          }
-
+         RoleView rlv = service.getRoleData(ev);
+         putRequestScope(AttributeConst.ROLE,rlv);//取得した役職情報
          putRequestScope(AttributeConst.TOKEN,getTokenId());//CSRF対策
          putRequestScope(AttributeConst.EMPLOYEE,ev);//取得した従業員情報
 
@@ -205,6 +221,22 @@ public class EmployeeAction extends ActionBase {
 
             //従業員情報更新
             List<String> errors = service.update(ev, pepper);
+
+            RoleView rlv = service.getRoleData(ev);
+//            if(rlv == null) {
+//                RoleView rlvc = new RoleView(
+//                        null,
+//                        service.getDataByCode(getRequestParam(AttributeConst.EMP_CODE)),
+//                        toNumber(getRequestParam(AttributeConst.DEPART_GR)),
+//                        toNumber(getRequestParam(AttributeConst.ROLE_FLAG)));
+//                service.createRole(rlvc);
+
+//            }else {
+                    rlv.setDepartmentGr(toNumber(getRequestParam(AttributeConst.DEPART_GR)));
+                    rlv.setRoleFlag(toNumber(getRequestParam(AttributeConst.ROLE_FLAG)));
+
+                    service.updateRole(rlv);
+//            }
 
             if(errors.size() > 0) {
                 //更新中にエラーが発生した場合
@@ -262,4 +294,7 @@ public class EmployeeAction extends ActionBase {
             return true;
         }
     }
+
+
+
 }
