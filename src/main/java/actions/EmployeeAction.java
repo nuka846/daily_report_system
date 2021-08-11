@@ -110,13 +110,6 @@ public class EmployeeAction extends ActionBase {
             List<String> errors = service.create(ev,pepper);
 
 
-            //役職情報のテーブルに新規登録
-            RoleView rlv = new RoleView(
-                    null,
-                    service.getDataByCode(getRequestParam(AttributeConst.EMP_CODE)),
-                    toNumber(getRequestParam(AttributeConst.DEPART_GR)),
-                    toNumber(getRequestParam(AttributeConst.ROLE_FLAG)));
-            service.createRole(rlv);
 
 
 
@@ -132,6 +125,14 @@ public class EmployeeAction extends ActionBase {
 
             } else {
                 //登録中にエラーがなかった場合
+
+                //役職情報のテーブルに新規登録
+                RoleView rlv = new RoleView(
+                        null,
+                        service.getDataByCode(getRequestParam(AttributeConst.EMP_CODE)),
+                        toNumber(getRequestParam(AttributeConst.DEPART_GR)),
+                        toNumber(getRequestParam(AttributeConst.ROLE_FLAG)));
+                service.createRole(rlv);
 
                 //セッションに登録完了のフラッシュメッセージを設定
                 putSessionScope(AttributeConst.FLUSH, MessageConst.I_REGISTERED.getMessage());

@@ -5,6 +5,8 @@ import java.util.List;
 
 import actions.views.ApprovalConverter;
 import actions.views.ApprovalView;
+import actions.views.EmployeeConverter;
+import actions.views.EmployeeView;
 import actions.views.ReportConverter;
 import actions.views.ReportView;
 import constants.JpaConst;
@@ -18,8 +20,9 @@ public class ApprovalService extends ServiceBase {
      * @param page ページ数
      * @return 一覧画面に表示するデータのリスト
      */
-    public List<ReportView> getApprovPerPage(int page){
+    public List<ReportView> getApprovPerPage(EmployeeView employee,int page){
         List<Report> reports = em.createNamedQuery(JpaConst.Q_REP_GET_ALL_NO_APPROV,Report.class)
+                .setParameter(JpaConst.JPQL_PARM_EMPLOYEE,EmployeeConverter.toModel(employee))
                 .setFirstResult(JpaConst.ROW_PER_PAGE * (page - 1))
                 .setMaxResults(JpaConst.ROW_PER_PAGE)
                 .getResultList();
@@ -31,7 +34,7 @@ public class ApprovalService extends ServiceBase {
      * @return データの件数
      */
     public long countAll() {
-        long reports_count = (long) em.createNamedQuery(JpaConst.Q_REP_COUNT,Long.class)
+        long reports_count = (long) em.createNamedQuery(JpaConst.Q_REP_COUNT_APPROV,Long.class)
                 .getSingleResult();
         return reports_count;
     }

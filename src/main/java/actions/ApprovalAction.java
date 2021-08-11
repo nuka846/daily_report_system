@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.ServletException;
 
 import actions.views.ApprovalView;
+import actions.views.EmployeeView;
 import actions.views.ReportView;
 import constants.AttributeConst;
 import constants.ForwardConst;
@@ -36,7 +37,8 @@ public class ApprovalAction extends ActionBase {
     public void index() throws ServletException,IOException{
 
         int page =getPage();
-        List<ReportView> reports = service.getApprovPerPage(page);
+        EmployeeView loginEmployee = (EmployeeView) getSessionScope(AttributeConst.LOGIN_EMP);
+        List<ReportView> reports = service.getApprovPerPage(loginEmployee,page);
         long reportsCount = service.countAll();
         long reportsApprovalCount = service.countAllApprov();
 

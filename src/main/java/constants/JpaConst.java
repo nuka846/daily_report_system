@@ -130,16 +130,16 @@ public interface JpaConst {
 
     //未承認の日報全てを取得
     String Q_REP_GET_ALL_NO_APPROV = ENTITY_REP + ".getAllNoApprov";
-    String Q_REP_GET_ALL_NO_APPROV_DEF = "SELECT r FROM Report AS r WHERE r.approvalFlag = 0";
+    String Q_REP_GET_ALL_NO_APPROV_DEF = "SELECT r FROM Report AS r INNER JOIN Role ro ON r.employee = ro.employee WHERE r.approvalFlag = 0 AND ro.departmentGr = (SELECT ro.departmentGr FROM ro WHERE ro.employee = :" + JPQL_PARM_EMPLOYEE + ") AND ro.roleFlag < (SELECT ro.roleFlag FROM ro WHERE ro.employee = :" + JPQL_PARM_EMPLOYEE + ") ";
     //未承認の日報全ての件数を取得
     String Q_REP_COUNT_APPROV = ENTITY_REP + ".countApprov";
-    String Q_REP_COUNT_APPROV_DEF = "SELECT COUNT(r) FROM Report AS r WHERE r.approvalFlag = 0";
+    String Q_REP_COUNT_APPROV_DEF = "SELECT COUNT(r) FROM Report AS r INNER JOIN Role ro ON r.employee = ro.employee WHERE r.approvalFlag = 0";
 
     //指定した日報に紐付いた承認詳細情報を取得する
     String Q_APPROV_DATA = ENTITY_APPROV + ".approvalData";
     String Q_APPROV_DATA_DEF = "SELECT ap FROM Approval AS ap WHERE ap.report = :" + JPQL_PARM_REPORT;
 
-    //未承認の日報全てを取得
+    //承認済の日報全てを取得（管理者用コマンド）
     String Q_REP_GET_ALL_APPROV = ENTITY_REP + ".getAllApprov";
     String Q_REP_GET_ALL_APPROV_DEF = "SELECT r FROM Report AS r WHERE r.approvalFlag = 1";
 
